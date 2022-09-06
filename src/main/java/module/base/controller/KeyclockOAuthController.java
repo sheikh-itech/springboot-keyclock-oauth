@@ -28,7 +28,7 @@ public class KeyclockOAuthController {
 	@Autowired
 	private UserRepo userRepo;
 	
-	@RolesAllowed({"user", "admin"})	//Only if jsr250Enabled = true
+	//@RolesAllowed({"user", "admin"})	//Only if jsr250Enabled = true
 	@RequestMapping(value="/init")
 	public boolean init() {
 		
@@ -36,7 +36,7 @@ public class KeyclockOAuthController {
 		return true;
 	}
 	
-	@RolesAllowed("user")
+	//@RolesAllowed("user")
 	@RequestMapping(value="/list")
 	public ResponseEntity<User> getUser(@PathParam("id") int id) {
 		
@@ -44,7 +44,7 @@ public class KeyclockOAuthController {
 		return new ResponseEntity<User>(user.get(), HttpStatus.OK);
 	}
 	
-	@RolesAllowed("user")
+	//@RolesAllowed("user")
 	@RequestMapping(value="/add", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		
@@ -52,7 +52,7 @@ public class KeyclockOAuthController {
 		return new ResponseEntity<String>("saved employee detail", HttpStatus.CREATED);
 	}
 	
-	@RolesAllowed("user")
+	//@RolesAllowed("user")
 	@RequestMapping(value="/listAll")
 	public ResponseEntity<List<User>> getAllUser() {
 		

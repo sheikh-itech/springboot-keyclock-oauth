@@ -58,9 +58,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
             .antMatchers("/keyclock/admin*").hasRole("ADMIN")
             .anyRequest().permitAll();*/
         
+        
         http.authorizeRequests()
-        .antMatchers("/keyclock*").hasRole("USER")
-        .antMatchers("/keyclock/admin*").hasRole("ADMIN")
+        .antMatchers("/keyclock*").hasRole("user")
+        .antMatchers("/keyclock/admin*").hasRole("admin")
         .anyRequest().permitAll();
     }
 }

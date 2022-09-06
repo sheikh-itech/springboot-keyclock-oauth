@@ -1,0 +1,119 @@
+Key Clock Server Configuration
+==============================
+
+1. Unzip 'keycloak-19.0.1.zip' package
+
+2. Go to home directory of unzipped package
+
+3. Check if default port 8080 free run command -> bin\kc.bat start-dev
+
+4. If default port not free provide port -> bin\kc.bat start-dev --http-port 8081
+
+
+Configure Realm/User [Keyclock Configuration]
+=============================================
+
+1. Create admin user -> http://localhost:<Port>/
+
+2. Login to keyclock/console -> http://localhost:<Port>/admin
+	[http://localhost:<Port>/admin/master/console/]
+
+3. Create Realm
+
+	1. Give any name
+	2. keep enabled
+	3. [Remember realm name for future]
+
+4. Create Client
+	
+	1. Provide client-id name [user defined]
+	2. Choose Client type-> 'OpenID Connect'
+	3. Configure root url-> http://localhost:8081/keyclock
+	4. Redirect url-> http://localhost:8081/keyclock/*
+	5. Web Origin-> http://localhost:8081/keyclock
+	6. Admin url-> http://localhost:8081/keyclock
+	7. Keep 'Client authentication' -> OFF
+	8. Authentication flow-> Standard flow, Direct access grants, 
+			OAuth 2.0 Device Authorization Grant [Tick these 3 option]
+
+5. Define Roles [Any number of roles]
+
+	1. Role name-> admin, Description-> random description
+	2. Role name-> user, Description-> random description
+	
+6. Create Users
+	
+	1. Give Username
+	2. Generate password from Credentials-tab
+	3. Map users role from Role-Mapping tab [Assign role]
+
+
+
+
+Eclipse
+-------
+
+1. Configure realm=> keycloak.realm = <Realm-Name>
+
+2. Configure resource/Client=> keycloak.resource = <Keyclock-Client-Name>
+
+3. Configure Server location=> keycloak.auth-server-url = http://<Host:Port>
+
+4. Set below properties
+
+	keyclock.public-client=true
+	keyclock.bearer-only=true
+
+
+Postman
+-------
+
+1. Get "token_endpoint" from realm-setting [Keyclock server]
+
+2. Make new Get request type with "token_endpoint" url 
+	Get Url=> http://localhost:8082/realms/hapheejrealm/protocol/openid-connect/token
+	
+3. Go to Authorization tab of postman	
+ 
+4. Select Type-> OAuth 2.0
+
+5. Fill below fields-
+
+	1. Grant Type-> Password Credentials
+	2. Access Token URL-> "token_endpoint" from Keyclock Server
+		[http://localhost:8082/realms/hapheejrealm/protocol/openid-connect/token]
+	3. Client ID-> Created client name
+	4. Username-> Generated username of keyclock server
+	5. Password-> Password from keyclock server
+	6. Scope-> openid
+	7. Client Authentication-> Sent client credential in body
+
+6. Get New Access Token
+
+7. Save it as cookie for request/response
+
+Application Access
+==================
+
+Once saved authorization key as cookie-
+
+1. Open new tab and give application url [own app url]
+
+2. In Authorization tab select-> Inherit Auth from parent
+
+3.  Inherit Auth from parent-> will send auth code for each request
+
+
+Reading Source
+==============
+
+1. https://www.keycloak.org/getting-started/getting-started-zip
+2. https://www.youtube.com/watch?v=La082JsJoH4
+
+Note
+====
+
+Keyclock server zip file saved to primary gmail drive
+
+
+
