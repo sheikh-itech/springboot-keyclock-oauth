@@ -23,6 +23,7 @@ Configure Realm/User [Keyclock Configuration]
 	1. Give any name
 	2. keep enabled
 	3. [Remember realm name for future]
+	4. Valid redirect URI-> http://localhost:8080/login/oauth2/code/<Client-Name>
 
 4. Create Client
 	

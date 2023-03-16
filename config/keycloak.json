@@ -1,0 +1,12 @@
+{
+  "realm": "hello-world-authz",
+  "auth-server-url": "http://localhost:8082/",
+  "ssl-required": "external",
+  "resource": "app-auth",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "XjJUMQDrS9DCEPZ3tMerJXhbz8aYOPsR"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

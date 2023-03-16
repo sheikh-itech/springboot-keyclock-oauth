@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 @KeycloakConfiguration
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
+//@EnableWebSecurity
 @Import(KeycloakSpringBootConfigResolver.class)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
@@ -40,12 +42,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Bean
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(buildSessionRegistry());
-    }
-
-    @Bean
-    protected SessionRegistry buildSessionRegistry() {
-        return new SessionRegistryImpl();
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
     
     @Override
@@ -53,15 +50,22 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     {
         super.configure(http);
         
-        /*http.authorizeRequests()
-            .antMatchers("/keyclock*").hasRole("USER")
-            .antMatchers("/keyclock/admin*").hasRole("ADMIN")
-            .anyRequest().permitAll();*/
+        http.authorizeRequests().and().logout().logoutUrl("/logout")
+        .clearAuthentication(true)
+        .deleteCookies("JSESSIONID")
+        .invalidateHttpSession(true);
         
+        http.csrf().disable();
         
+        http.authorizeRequests().anyRequest().permitAll();
+        
+        /*
         http.authorizeRequests()
-        .antMatchers("/keyclock*").hasRole("user")
-        .antMatchers("/keyclock/admin*").hasRole("admin")
+        .antMatchers("/admin/*").hasRole("admin")
+        .antMatchers("/keyclock/*").hasRole("listAll")
+        .antMatchers("/user/*").hasRole("listAll")
+        .antMatchers("/oauth2/*").hasRole("listAll")
         .anyRequest().permitAll();
+        */
     }
 }
